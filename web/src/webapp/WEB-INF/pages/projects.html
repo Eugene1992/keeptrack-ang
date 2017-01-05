@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html ng-app="helloWorldApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>KeepTrack</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="../../../resources/css/sb-admin.css" rel="stylesheet">
+
+        <!-- Multyselect lin style -->
+        <link href="../../../resources/css/isteven-multi-select.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="../../../resources/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <!-- Angular JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+        <!-- Custom page JS -->
+        <script src="../../../resources/js/pages/projects.js"></script>
+    </head>
+    <body ng-controller="AdminProjectsCtrl">
+        <div id="wrapper">
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><i class="fa fa-clock-o"></i> KeepTrack</a>
+                </div>
+                <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu alert-dropdown">
+                            <li>
+                                <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">View All</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user"></i> Evgeniy Deyneka <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav side-nav">
+                        <li class="active">
+                            <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Statistic</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-money"></i> Customers</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-edit"></i> Projects</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Employees</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-wrench"></i> Tasks</a>
+                        </li>
+                        <li>
+                            <a data-toggle="collapse" data-target="#demo">
+                                <i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i>
+                            </a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12"><br>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="fa fa-money fa-fw"></i> Projects list
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="input-group">
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#newProjectModal">New Project</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="input-group pull-right">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" placeholder="Search" ng-model="searchValue">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'name'; sortReverse = !name">
+                                                        Name
+                                                        <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'PM'; sortReverse = !sortReverse">
+                                                        PM
+                                                        <span ng-show="sortType == 'PM' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'PM' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                                        Status
+                                                        <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'startDate'; sortReverse = !sortReverse">
+                                                        Start Date
+                                                        <span ng-show="sortType == 'startDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'startDate' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'endDate'; sortReverse = !sortReverse">
+                                                        End Date
+                                                        <span ng-show="sortType == 'endDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'endDate' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'employees'; sortReverse = !sortReverse">
+                                                        Employees
+                                                        <span ng-show="sortType == 'employees' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'employees' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'sprints'; sortReverse = !sortReverse">
+                                                        Sprints
+                                                        <span ng-show="sortType == 'sprints' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'sprints' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'tasks'; sortReverse = !sortReverse">
+                                                        Tasks
+                                                        <span ng-show="sortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>Update</th>
+                                                <th>Delete</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="project in projects | orderBy:sortType:sortReverse | filter:searchValue | limitTo:tableSize">
+                                                <td>{{project.name}}</td>
+                                                <td>{{project.projectManager.firstName}} {{project.projectManager.lastName}}</td>
+                                                <td>{{project.status}}</td>
+                                                <td>{{project.startDate}}</td>
+                                                <td>{{project.endDate}}</td>
+                                                <td>{{project.employees.length}}</td>
+                                                <td>{{project.sprints.length}}</td>
+                                                <td>{{calcSprintTotalTasks(project)}}</td>
+                                                <td><button ng-click="openUpdatePopUp(emp)" type="button" class="btn btn-warning btn-xs">Update</button></td>
+                                                <td><button type="button" class="btn btn-danger btn-xs">Delete</button></td>
+                                                <td><button type="button" class="btn btn-success btn-xs">Details</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label>
+                                                    <select class="form-control" ng-model="tableSize">
+                                                        <option>5</option>
+                                                        <option>10</option>
+                                                        <option>25</option>
+                                                        <option>50</option>
+                                                        <option>100</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Project Modal -->
+                    <div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #337AB7">
+                                    <h4 class="modal-title">Add new Project</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="newProjectForm" name="newProjectForm" novalidate ng-submit="createNewProject(newProject, newProjectForm.$valid)">
+                                        <div class="form-group col-lg-12 outer">
+                                            <div class="form-group col-lg-6">
+                                                <label for="name">Project name:</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                       ng-class="{'valid-border': newProjectForm.name.$invalid && showError}"
+                                                       ng-model="newProject.name" ng-pattern="/^[a-zA-Z]{2,20}$/" required/>
+                                                <span class="valid-msg" ng-show="showError">
+                                                    {{getError(newProjectForm.name.$error)}}
+                                                </span>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.name.required)}}
+                                                </span>
+                                            </div>
+                                            <div class="form-group form-group-sm col-md-6">
+                                                <label for="projectManager">Project Manager:</label>
+                                                <select class="form-control custom-select-height" id="projectManager" name="projectManager"
+                                                        ng-class="{'valid-border': newProjectForm.projectManager.$invalid && showError}"
+                                                        ng-model="newProject.projectManager" required>
+                                                    <option ng-repeat="emp in employees">{{emp.firstName}} {{emp.lastName}}</option>
+                                                </select>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.projectManager.$error)}}
+                                                </span>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.projectManager.required)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12 outer">
+                                            <div class="form-group col-lg-6">
+                                                <label for="startDate">Start date:</label>
+                                                <input type="date" class="form-control" id="startDate" name="startDate"
+                                                       ng-class="{'valid-border': newProjectForm.startDate.$invalid && showError}"
+                                                       ng-model="newProject.startDate" required>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.startDate.$error)}}
+                                                </span>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.startDate.required)}}
+                                                </span>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="endDate">End date:</label>
+                                                <input type="date" class="form-control" id="endDate" name="endDate"
+                                                       ng-class="{'valid-border': newProjectForm.endDate.$invalid && showError}"
+                                                       ng-model="newProject.endDate" required>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.endDate.$error)}}
+                                                </span>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.endDate.required)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12 outer">
+                                            <div class="form-group col-lg-12">
+                                                <label for="description">Description:</label>
+                                                <textarea class="form-control" id="description" name="description" rows="4"
+                                                          ng-class="{'valid-border': newProjectForm.description.$invalid && showError}"
+                                                          ng-model="newProject.description" required></textarea>
+                                                <span ng-show="showError" class="valid-msg">
+                                                    {{getError(newProjectForm.description.$error)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close menu</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Update Project Modal -->
+                    <div class="modal fade" id="updEmpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #337AB7">
+                                    <h4 class="modal-title">Update Project</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form name="updProjectForm" ng-submit="updateProject(updProject, updProjectForm.$valid)" novalidate>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi select plugin -->
+        <script src="../../../resources/js/libs/isteven-multi-select.js"></script>
+
+        <!-- jQuery -->
+        <script src="../../../resources/js/libs/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../../resources/js/libs/bootstrap.min.js"></script>
+    </body>
+</html>
