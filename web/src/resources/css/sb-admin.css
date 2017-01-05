@@ -225,3 +225,21 @@ ul.alert-dropdown {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+#newEmpForm .form-group {
+    margin-bottom: 10px;
+}
+
+.outer {
+    padding: 0;
+}
+
+.valid-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.valid-border {
+    border: solid 1px red;
+}
