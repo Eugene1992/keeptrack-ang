@@ -110,9 +110,9 @@ helloWorldApp.controller("AdminProjectsCtrl", function ($scope) {
         $scope.updEmp = null;
     };
 
-    $scope.openUpdatePopUp = function (emp) {
-        $('#updEmpModal').modal('toggle');
-        $scope.updEmp = emp;
+    $scope.openUpdatePopUp = function (project) {
+        $('#updProjectModal').modal('toggle');
+        $scope.updProject = project;
     };
 
     $scope.calcProjectsNum = function (emp) {
@@ -138,6 +138,7 @@ helloWorldApp.controller("AdminProjectsCtrl", function ($scope) {
 
     $scope.updateProject = function (updProject, isValid) {
         if (isValid) {
+            alert(updProject);
             $('#updEmpModal').modal('hide');
         } else {
             $scope.showError = true;
