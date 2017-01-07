@@ -1,4 +1,4 @@
-package com.netcracker.config;
+package com.netcracker.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
