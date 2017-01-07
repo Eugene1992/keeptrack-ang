@@ -6,22 +6,26 @@ var projects = [
         startDate: "2015-09-12",
         endDate: "2016-02-07",
         employees: [
-            {firstName: "Evgeniy", lastName: "Deyneka"},
-            {firstName: "Evgeniy", lastName: "Deyneka"},
-            {firstName: "Evgeniy", lastName: "Deyneka"},
-            {firstName: "Evgeniy", lastName: "Deyneka"}
+            {firstName: "Evgeniy", lastName: "Deyneka", position: "Junior"},
+            {firstName: "Anna", lastName: "Zaika", position: "Middle"},
+            {firstName: "Denis", lastName: "Bidnenko", position: "Senior"},
+            {firstName: "Dmitriy", lastName: "Titov", position: "Architect"}
         ],
         sprints: [
-            {title: "SprintStart", tasks: [
-                {title: "TaskStart", estimate: 12},
-                {title: "TaskMiddle", estimate: 7},
-                {title: "TaskMiddle", estimate: 7},
-                {title: "TaskEnd", estimate: 16}]
+            {   title: "SprintStart",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}
+                ],
+                status: "In Progress"
             },
-            {title: "SprintMiddle", tasks: [
-                {title: "TaskStart", estimate: 12},
-                {title: "TaskMiddle", estimate: 7},
-                {title: "TaskEnd", estimate: 16}]
+            {   title: "SprintMiddle",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}],
+                status: "Planed"
             }
         ]
     },
@@ -37,15 +41,107 @@ var projects = [
             {firstName: "Evgeniy", lastName: "Deyneka"}
         ],
         sprints: [
-            {title: "SprintStart", tasks: [
-                {title: "TaskStart", estimate: 12},
-                {title: "TaskMiddle", estimate: 7},
-                {title: "TaskEnd", estimate: 16}]
+            {   title: "SprintStart",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}
+                ],
+                status: "In Progress"
             },
-            {title: "SprintMiddle", tasks: [
-                {title: "TaskStart", estimate: 12},
-                {title: "TaskMiddle", estimate: 7},
-                {title: "TaskEnd", estimate: 16}]
+            {   title: "SprintMiddle",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}],
+                status: "Planed"
+            }
+        ]
+    },
+    {
+        name: "Minerva",
+        projectManager: {firstName: "Roman", lastName: "Andriyanov"},
+        status: "In Progress",
+        startDate: "2015-09-12",
+        endDate: "2016-02-07",
+        employees: [
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"}
+        ],
+        sprints: [
+            {   title: "SprintStart",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}
+                ],
+                status: "In Progress"
+            },
+            {   title: "SprintMiddle",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}],
+                status: "Planed"
+            }
+        ]
+    },
+    {
+        name: "Minerva",
+        projectManager: {firstName: "Roman", lastName: "Andriyanov"},
+        status: "In Progress",
+        startDate: "2015-09-12",
+        endDate: "2016-02-07",
+        employees: [
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"}
+        ],
+        sprints: [
+            {   title: "SprintStart",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}
+                ],
+                status: "In Progress"
+            },
+            {   title: "SprintMiddle",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}],
+                status: "Planed"
+            }
+        ]
+    },
+    {
+        name: "Minerva",
+        projectManager: {firstName: "Roman", lastName: "Andriyanov"},
+        status: "In Progress",
+        startDate: "2015-09-12",
+        endDate: "2016-02-07",
+        employees: [
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"},
+            {firstName: "Evgeniy", lastName: "Deyneka"}
+        ],
+        sprints: [
+            {   title: "SprintStart",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}
+                ],
+                status: "In Progress"
+            },
+            {   title: "SprintMiddle",
+                tasks: [
+                    {title: "TaskStart", estimate: 12},
+                    {title: "TaskMiddle", estimate: 7},
+                    {title: "TaskEnd", estimate: 16}],
+                status: "Planed"
             }
         ]
     }
@@ -94,9 +190,9 @@ var employees = [
 ];
 
 
-var helloWorldApp = angular.module("helloWorldApp", ["isteven-multi-select"]);
+var helloWorldApp = angular.module("helloWorldApp", ['isteven-multi-select', 'ui.bootstrap.collapse']);
 
-helloWorldApp.controller("AdminProjectsCtrl", function ($scope) {
+helloWorldApp.controller("AdminProjectsCtrl", function ($scope, $rootScope) {
 
     $scope.projects = projects;
     $scope.employees = employees;
@@ -165,6 +261,63 @@ helloWorldApp.controller("AdminProjectsCtrl", function ($scope) {
         }
     };
 
+    $scope.sprints = ["Sprint 1"];
+
+    $scope.changeShow = function ($scope) {
+        $scope.isShow = false;
+    };
+
+
+
+    $scope.addSprint = function () {
+        $scope.sprints.push('');
+    };
+
+    $scope.removeSprint = function (index) {
+        $scope.sprints.splice(index, 1);
+    };
+
+    $scope.sendSelectedProject = function (selectedProject) {
+        // $broadcast - отправка события всем scope от rootScope
+        $rootScope.$broadcast("sendProject", selectedProject);
+    }
+});
+
+helloWorldApp.controller("ProjectBoxesCtrl", function ($scope) {
+
+    $scope.showInfoBoxes = false;
+    $scope.showSummary = false;
+    $scope.showEmployees = false;
+    $scope.showSprints = false;
+    $scope.showTasks = true;
+
+    $scope.empSortType = 'firstName';
+    $scope.sprintSortType = 'tittle';
+    $scope.taskSortType = 'name';
+    $scope.sortReverse = false;
+
+    // обработка события messageEvent на текущем scope
+    $scope.$on("sendProject", function (event, args) {
+        $scope.project = args;
+        $scope.showInfoBoxes = true;
+    });
+
+    $scope.changeShowSummary = function(value) {
+        $scope.showSummary = value;
+    };
+
+    $scope.changeShowEmployees = function(value) {
+        $scope.showEmployees = value;
+    };
+
+    $scope.changeShowSprints = function(value) {
+        $scope.showSprints = value;
+    };
+
+    $scope.changeShowTasks = function(value) {
+        $scope.showTasks = value;
+    };
+
     $scope.calcSprintTotalTasks = function (project) {
         var res = 0;
         for (var i = 0; i < project.sprints.length; i++) {
@@ -172,4 +325,49 @@ helloWorldApp.controller("AdminProjectsCtrl", function ($scope) {
         }
         return res;
     };
+
+    $scope.addEmployeeToProject = function (isValid) {
+        if (isValid) {
+            var projectIndex = projects.indexOf($scope.project);
+            var employeeIndex = employees.indexOf($scope.selectedEmployee);
+            $scope.projects[projectIndex].employees.push(employees[employeeIndex]);
+            $scope.addEmpToProjectForm.$setUntouched();
+            $scope.addEmpToProjectForm.$setPristine();
+            $('#addEmployeePopUp').modal('hide');
+        } else {
+            $scope.showError = true;
+        }
+    };
+
+    $scope.deleteEmployeeFromProject = function (employee) {
+        var employeeIndex = employees.indexOf(employee);
+        $scope.project.employees.splice(employeeIndex, 1);
+    };
+
+    $scope.addSprintToProject = function (newSprint, isValid) {
+        if (isValid) {
+            alert(newSprint);
+        } else {
+            $scope.showError = true;
+        }
+    };
+
+    $scope.showError = false;
+
+    // get validation message
+    $scope.getError = function (error, type) {
+        if (angular.isDefined(error)) {
+            if (error.required) {
+                return "Required field";
+            }
+            if (error.pattern) {
+                if (type == "description") {
+                    return "Only ENG chars in the 10-100 range";
+                }
+                return "Only ENG chars in the 2-10 range";
+            }
+        }
+
+    }
 });
+

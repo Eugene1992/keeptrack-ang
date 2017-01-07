@@ -128,21 +128,507 @@
             <div id="page-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-12"><br>
-                            <div class="panel panel-primary">
+                        <div class="col-lg-8" ng-controller="ProjectBoxesCtrl">
+                            <!-- Project Summary Panel -->
+                            <div class="panel panel-primary" ng-show="showInfoBoxes">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
-                                        <i class="fa fa-money fa-fw"></i> Projects list
+                                        <i class="glyphicon glyphicon-info-sign"></i> Project summary
+                                        <i class="glyphicon glyphicon-chevron-down pull-right" ng-show="showSummary == false" ng-click="changeShowSummary(!showSummary)"></i>
+                                        <i class="glyphicon glyphicon-chevron-up pull-right" ng-show="showSummary == true" ng-click="changeShowSummary(!showSummary)"></i>
                                     </h3>
+                                </div>
+                                <div class="panel-body" ng-show="showSummary">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td><b>Project name:</b></td>
+                                                <td>{{project.name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Project manager:</b></td>
+                                                <td>{{project.projectManager.firstName}} {{project.projectManager.lastName}}
+                                                    <button class="btn btn-warning btn-xs pull-right" ng-click="openUpdatePopUp(project)">
+                                                        <i class="glyphicon glyphicon-check"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Status</b></td>
+                                                <td>{{project.status}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Start date</b></td>
+                                                <td>{{project.startDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>End date</b></td>
+                                                <td>{{project.endDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Employees</b></td>
+                                                <td>{{project.employees.length}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Sprints</b></td>
+                                                <td>{{project.sprints.length}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Tasks</b></td>
+                                                <td>{{calcSprintTotalTasks(project)}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Project Employees Panel -->
+                            <div class="panel panel-primary" ng-show="showInfoBoxes">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="fa fa-users fa-fw"></i> Project employees
+                                        <i class="glyphicon glyphicon-chevron-down pull-right" ng-show="showEmployees == false" ng-click="changeShowEmployees(!showEmployees)"></i>
+                                        <i class="glyphicon glyphicon-chevron-up pull-right" ng-show="showEmployees == true" ng-click="changeShowEmployees(!showEmployees)"></i>
+                                    </h3>
+                                </div>
+                                <div class="panel-body" ng-show="showEmployees">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <a href="#" ng-click="empSortType = 'firstName'; sortReverse = !sortReverse">
+                                                        First name
+                                                        <span ng-show="empSortType == 'firstName' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="empSortType == 'firstName' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="empSortType = 'lastName'; sortReverse = !sortReverse">
+                                                        Last name
+                                                        <span ng-show="empSortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="empSortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="empSortType = 'position'; sortReverse = !sortReverse">
+                                                        Position
+                                                        <span ng-show="empSortType == 'position' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="empSortType == 'position' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="empSortType = 'tasks'; sortReverse = !sortReverse">
+                                                        Tasks
+                                                        <span ng-show="empSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="empSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th class="th-del-btn">
+                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="employee in project.employees | orderBy:empSortType:sortReverse">
+                                                <td>{{employee.firstName}}</td>
+                                                <td>{{employee.lastName}}</td>
+                                                <td>{{employee.position}}</td>
+                                                <td>{{employee.tasks}}</td>
+                                                <td><button class="btn btn-danger btn-xs" ng-click="deleteEmployeeFromProject(employee)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#addEmployeePopUp">Add Employee</button>
+                                </div>
+                                <div class="modal fade" id="addEmployeePopUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #337AB7">
+                                                <h4 class="modal-title">{{project.name}}</h4>
+                                            </div>
+                                            <div class="modal-body" id="setEmpModalBody">
+                                                <form id="addEmpToProjectForm" name="addEmpToProjectForm" novalidate ng-submit="addEmployeeToProject(addEmpToProjectForm.$valid)">
+                                                    <div class="form-group form-group-sm col-sm-offset-3 col-sm-6">
+                                                        <label for="gender">Add employee to project:</label>
+                                                        <select class="form-control custom-select-height" id="gender" name="selectedEmployee"
+                                                                ng-class="{'valid-border': addEmpToProjectForm.selectedEmployee.$invalid && showError}"
+                                                                ng-options="employee.lastName + ' ' + employee.firstName for employee in employees | orderBy: 'lastName'"
+                                                                ng-model="selectedEmployee" required>
+                                                        </select>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addEmpToProjectForm.selectedEmployee.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addEmpToProjectForm.selectedEmployee.required)}}
+                                                        </span>
+                                                    </div><br>
+                                                    <div class="form-group text-center col-sm-12" id="setEmpModalFooter">
+                                                        <button type="submit" class="btn btn-primary">Add Employee</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close menu</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Project Sprints Panel -->
+                            <div class="panel panel-primary" ng-show="showInfoBoxes">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="glyphicon glyphicon-info-sign"></i> Project Sprints
+                                        <i class="glyphicon glyphicon-chevron-down pull-right" ng-show="showSprints == false" ng-click="changeShowSprints(!showSprints)"></i>
+                                        <i class="glyphicon glyphicon-chevron-up pull-right" ng-show="showSprints == true" ng-click="changeShowSprints(!showSprints)"></i>
+                                    </h3>
+                                </div>
+                                <div class="panel-body" ng-show="showSprints">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <a href="#" ng-click="sprintSortType = 'tittle'; sortReverse = !sortReverse">
+                                                        Title
+                                                        <span ng-show="sprintSortType == 'tittle' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sprintSortType == 'tittle' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sprintSortType = 'status'; sortReverse = !sortReverse">
+                                                        Status
+                                                        <span ng-show="sprintSortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sprintSortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sprintSortType = 'tasks'; sortReverse = !sortReverse">
+                                                        Tasks
+                                                        <span ng-show="sprintSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sprintSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th>Details</th>
+                                                <th class="th-del-btn">
+                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sprint in project.sprints">
+                                                <td>{{sprint.title}}</td>
+                                                <td>{{sprint.status}}</td>
+                                                <td>{{sprint.tasks.length}}</td>
+                                                <td><button class="btn btn-info btn-xs">Details</button></td>
+                                                <td><button class="btn btn-danger btn-xs" ng-click="deleteSprintFromProject(sprint)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-warning pull-left">Edit Sprint</button>
+                                    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#addSprintModal">Add Sprint</button>
+                                </div>
+                                <!-- Add Sprint Modal -->
+                                <div class="modal fade" id="addSprintModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #337AB7">
+                                                <h4 class="modal-title">Add Sprint</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form name="addSprintForm" ng-submit="addSprintToProject(newSprint, addSprintForm.$valid)" novalidate>
+                                                    <div class="form-group col-lg-12">
+                                                        <label for="newSprintName">Sprint name:</label>
+                                                        <input type="text" class="form-control" id="newSprintName" name="name"
+                                                               ng-class="{'valid-border': addSprintForm.name.$invalid && showError}"
+                                                               ng-model="newSprint.name" ng-pattern="/^[a-zA-Z]{2,20}$/" required/>
+                                                        <span class="valid-msg" ng-show="showError">
+                                                            {{getError(addSprintForm.name.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addSprintForm.name.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label for="newSprintDescription">Description:</label>
+                                                        <textarea class="form-control" id="newSprintDescription" name="description" rows="4"
+                                                                  ng-class="{'valid-border': addSprintForm.description.$invalid && showError}"
+                                                                  ng-model="updProject.description" ng-pattern="/^[a-zA-Z]{20,100}$/" required></textarea>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addSprintForm.description.$error, 'description')}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addSprintForm.description.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <!--<div class="form-group col-lg-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Id</th>
+                                                                <th>Name</th>
+                                                                <th>Estimate</th>
+                                                                <th>Employees</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>John</td>
+                                                                <td>Doe</td>
+                                                                <td>john@example.com</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Mary</td>
+                                                                <td>Moe</td>
+                                                                <td>mary@example.com</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>July</td>
+                                                                <td>Dooley</td>
+                                                                <td>july@example.com</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>-->
+                                                    <div class="form-group col-lg-12">
+                                                        <p><i><b>Note:</b> you can add tasks to the sprint, close it in 'Edit Sprint' option after it is created.</i></p>
+                                                    </div>
+                                                    <div class="form-group text-center">
+                                                        <button type="submit" class="btn btn-success">Start sprint</button>
+                                                        <button type="submit" class="btn btn-primary">Add to the queue</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close menu</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Project Tasks Panel -->
+                            <div class="panel panel-primary" ng-show="showInfoBoxes">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="glyphicon glyphicon-info-sign"></i> Project Tasks
+                                        <i class="glyphicon glyphicon-chevron-down pull-right" ng-show="showTasks == false" ng-click="changeShowTasks(!showTasks)"></i>
+                                        <i class="glyphicon glyphicon-chevron-up pull-right" ng-show="showTasks == true" ng-click="changeShowTasks(!showTasks)"></i>
+                                    </h3>
+                                </div>
+                                <div class="panel-body" ng-show="showTasks">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'id'; sortReverse = !sortReverse">
+                                                    Id
+                                                    <span ng-show="taskSortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'id' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'name'; sortReverse = !sortReverse">
+                                                    Name
+                                                    <span ng-show="taskSortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'tasks'; sortReverse = !sortReverse">
+                                                    Created by
+                                                    <span ng-show="taskSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'tasks'; sortReverse = !sortReverse">
+                                                    Assigned to
+                                                    <span ng-show="taskSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'tasks'; sortReverse = !sortReverse">
+                                                    Estimate
+                                                    <span ng-show="taskSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="taskSortType = 'tasks'; sortReverse = !sortReverse">
+                                                    Status
+                                                    <span ng-show="taskSortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="taskSortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
+                                                </a>
+                                            </th>
+                                            <th>Details</th>
+                                            <th class="th-del-btn">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="sprint in project.sprints">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><button class="btn btn-danger btn-xs" ng-click="deleteSprintFromProject(sprint)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-warning pull-left">Edit Task</button>
+                                    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#addTaskModal">Add Task</button>
+                                </div>
+                                <!-- Add Sprint Modal -->
+                                <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #337AB7">
+                                                <h4 class="modal-title">Add Task</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form name="addTaskForm" ng-submit="addSprintToProject(newTask, addTaskForm.$valid)" novalidate>
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="newTaskName">Task name:</label>
+                                                        <input type="text" class="form-control" id="newTaskName" name="name"
+                                                               ng-class="{'valid-border': addTaskForm.name.$invalid && showError}"
+                                                               ng-model="newSprint.name" ng-pattern="/^[a-zA-Z]{2,20}$/" required/>
+                                                        <span class="valid-msg" ng-show="showError">
+                                                            {{getError(addTaskForm.name.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addTaskForm.name.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="taskSprint">Task sprint:</label>
+                                                        <select class="form-control custom-select-height" id="taskSprint" name="taskSprint"
+                                                                ng-class="{'valid-border': addTaskForm.taskSprint.$invalid && showError}"
+                                                                ng-options="sprint.title for sprint in project.sprints"
+                                                                ng-model="sprint" required>
+                                                        </select>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addTaskForm.taskSprint.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addTaskForm.taskSprint.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="taskAssign">Assign to:</label>
+                                                        <select class="form-control custom-select-height" id="taskAssign" name="taskAssign"
+                                                                ng-class="{'valid-border': addTaskForm.selectedEmployee.$invalid && showError}"
+                                                                ng-options="employee.lastName + ' ' + employee.firstName for employee in employees | orderBy: 'lastName'"
+                                                                ng-model="sprint" required>
+                                                        </select>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addTaskForm.selectedEmployee.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                             {{getError(addTaskForm.selectedEmployee.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="estimate">Estimate time(in hours):</label>
+                                                        <input type="text" class="form-control" id="estimate" name="estimate"
+                                                               ng-class="{'valid-border': addSprintForm.name.$invalid && showError}"
+                                                               ng-model="estimate" ng-pattern="/^[0-9^-]+$/" required/>
+                                                        <span class="valid-msg" ng-show="showError">
+                                                            {{getError(addTaskForm.estimate.$error)}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addTaskForm.estimate.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label for="newTaskDescription">Description:</label>
+                                                        <textarea class="form-control" id="newTaskDescription" name="description" rows="4"
+                                                                  ng-class="{'valid-border': addSprintForm.description.$invalid && showError}"
+                                                                  ng-model="description" ng-pattern="/^[a-zA-Z]{20,100}$/" required></textarea>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addSprintForm.description.$error, 'description')}}
+                                                        </span>
+                                                        <span ng-show="showError" class="valid-msg">
+                                                            {{getError(addSprintForm.description.required)}}
+                                                        </span>
+                                                    </div>
+                                                    <!--<div class="form-group col-lg-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Id</th>
+                                                                <th>Name</th>
+                                                                <th>Estimate</th>
+                                                                <th>Employees</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>John</td>
+                                                                <td>Doe</td>
+                                                                <td>john@example.com</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Mary</td>
+                                                                <td>Moe</td>
+                                                                <td>mary@example.com</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>July</td>
+                                                                <td>Dooley</td>
+                                                                <td>july@example.com</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>-->
+                                                    <div class="form-group col-lg-12">
+                                                        <p><i><b>Note:</b> you can add tasks to the sprint, close it in 'Edit Sprint' option after it is created.</i></p>
+                                                    </div>
+                                                    <div class="form-group text-center">
+                                                        <button type="submit" class="btn btn-success">Start sprint</button>
+                                                        <button type="submit" class="btn btn-primary">Add to the queue</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close menu</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h2 class="panel-title">
+                                                <i class="fa fa-money fa-fw"></i> Projects
+                                            </h2>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="form-group pull-right" id="project-panel">
+                                                <b>Show </b>
+                                                <label>
+                                                    <select class="form-control" ng-model="tableSize" id="project-select">
+                                                        <option ng-selected="5">5</option>
+                                                        <option>10</option>
+                                                        <option>25</option>
+                                                        <option>50</option>
+                                                        <option>100</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-4">
                                             <div class="input-group">
                                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#newProjectModal">New Project</button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-8">
                                             <div class="input-group pull-right">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" placeholder="Search" ng-model="searchValue">
@@ -159,55 +645,6 @@
                                                         <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
                                                     </a>
                                                 </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'PM'; sortReverse = !sortReverse">
-                                                        PM
-                                                        <span ng-show="sortType == 'PM' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'PM' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'status'; sortReverse = !sortReverse">
-                                                        Status
-                                                        <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'startDate'; sortReverse = !sortReverse">
-                                                        Start Date
-                                                        <span ng-show="sortType == 'startDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'startDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'endDate'; sortReverse = !sortReverse">
-                                                        End Date
-                                                        <span ng-show="sortType == 'endDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'endDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'employees'; sortReverse = !sortReverse">
-                                                        Employees
-                                                        <span ng-show="sortType == 'employees' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'employees' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'sprints'; sortReverse = !sortReverse">
-                                                        Sprints
-                                                        <span ng-show="sortType == 'sprints' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'sprints' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="#" ng-click="sortType = 'tasks'; sortReverse = !sortReverse">
-                                                        Tasks
-                                                        <span ng-show="sortType == 'tasks' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'tasks' && sortReverse" class="fa fa-caret-up"></span>
-                                                    </a>
-                                                </th>
                                                 <th>Update</th>
                                                 <th>Delete</th>
                                                 <th>Details</th>
@@ -216,34 +653,12 @@
                                         <tbody>
                                             <tr ng-repeat="project in projects | orderBy:sortType:sortReverse | filter:searchValue | limitTo:tableSize">
                                                 <td>{{project.name}}</td>
-                                                <td>{{project.projectManager.firstName}} {{project.projectManager.lastName}}</td>
-                                                <td>{{project.status}}</td>
-                                                <td>{{project.startDate}}</td>
-                                                <td>{{project.endDate}}</td>
-                                                <td>{{project.employees.length}}</td>
-                                                <td>{{project.sprints.length}}</td>
-                                                <td>{{calcSprintTotalTasks(project)}}</td>
                                                 <td><button ng-click="openUpdatePopUp(project)" type="button" class="btn btn-warning btn-xs">Update</button></td>
                                                 <td><button type="button" class="btn btn-danger btn-xs">Delete</button></td>
-                                                <td><button type="button" class="btn btn-success btn-xs">Details</button></td>
+                                                <td><button type="button" class="btn btn-success btn-xs" ng-click="sendSelectedProject(project)">Details</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <div class="form-group">
-                                                <label>
-                                                    <select class="form-control" ng-model="tableSize">
-                                                        <option>5</option>
-                                                        <option>10</option>
-                                                        <option>25</option>
-                                                        <option>50</option>
-                                                        <option>100</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div><br>
                                 </div>
                             </div>
                         </div>
@@ -405,11 +820,31 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        <div class="form-group col-lg-12 outer">
+                                            <!--<div class="form-group col-lg-12">
+                                                <button class="btn btn-success btn-sm" ng-click="addSprint()">+</button>
+                                                <div ng-repeat="sprin in sprints track by $index" class="col-lg-6">
+                                                    <input type="text" class="form-control" ng-model='sprints[$index]' placeholder='Sprint:'>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button">Go!</button>
+                                                      </span>
+                                                </div>
+                                            </div>-->
+                                            <div class="col-lg-6">
+                                                <button class="btn btn-success btn-sm center-block" ng-click="addSprint()">Add Sprint</button>
+                                            </div>
+                                                <div class="input-group col-lg-6" ng-repeat="sprin in sprints track by $index">
+                                                    <input type="text" class="form-control" ng-model='sprints[$index]' placeholder="Sprint #{{$index}}">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-danger" type="button" ng-click="removeSprint($index)">-</button>
+                                                    </span>
+                                                </div>
+                                        </div>
                                         <div class="form-group text-center">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close menu</button>
                                         </div>
-                                        {{updProject}}
+                                        {{sprints}}
                                     </form>
                                 </div>
                             </div>
@@ -421,6 +856,7 @@
 
         <!-- Multi select plugin -->
         <script src="../../../resources/js/libs/isteven-multi-select.js"></script>
+        <script src="../../../resources/js/libs/collapse.js"></script>
 
         <!-- jQuery -->
         <script src="../../../resources/js/libs/jquery.js"></script>
