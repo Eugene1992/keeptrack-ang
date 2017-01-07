@@ -243,3 +243,27 @@ ul.alert-dropdown {
 .valid-border {
     border: solid 1px red;
 }
+
+#project-panel {
+    margin-bottom: 0;
+    font-weight: bold;
+    height: 30px;
+}
+
+#project-select {
+    height: 30px;
+    padding: 4px 4px;
+    background-color: #337ab7;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+#setEmpModalBody {
+    min-height: 160px;
+}
+
+.th-del-btn {
+    width: 40px;
+    text-align: center;
+    color: #337AB7;;
+}
