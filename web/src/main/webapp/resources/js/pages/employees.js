@@ -1,48 +1,48 @@
-var employees = [
-    {
-        firstName: "Evgeniy",
-        lastName: "Deyneka",
-        birthday: "1992-11-26",
-        hireDate: "1992-12-26",
-        gender: "Male",
-        email: "deyneko55@gmail.com",
-        salary: 15000,
-        projects: [
-            { title: "Minerva", openTasks: 25, closedTasks: 14 },
-            { title: "Flangex", openTasks: 18, closedTasks: 7 }
-        ]
-    },
-    {
-        firstName: "Anna",
-        lastName: "Zaika",
-        birthday: "1992-11-26",
-        hireDate: "1992-12-26",
-        gender: "Female",
-        email: "zaika@gmail.com",
-        salary: 11000,
-        projects: [
-            { title: "Minerva", openTasks: 25, closedTasks: 14 },
-            { title: "Flangex", openTasks: 18, closedTasks: 7 }
-        ]
-    },
-    {
-        firstName: "Ruslan",
-        lastName: "Kazenko",
-        birthday: "1992-11-26",
-        hireDate: "1992-12-26",
-        gender: "Male",
-        email: "kazenko@gmail.com",
-        salary: 23000,
-        projects: [
-            { title: "Minerva", openTasks: 25, closedTasks: 14 },
-            { title: "Flangex", openTasks: 18, closedTasks: 7 }
-        ]
-    }
-];
 
-var helloWorldApp = angular.module("helloWorldApp", ["isteven-multi-select"]);
+angular.module("mainApp").controller("AdminEmployeeCtrl", function ($scope) {
 
-helloWorldApp.controller("AdminEmployeeCtrl", function ($scope) {
+    var employees = [
+        {
+            firstName: "Evgeniy",
+            lastName: "Deyneka",
+            birthday: "1992-11-26",
+            hireDate: "1992-12-26",
+            gender: "Male",
+            email: "deyneko55@gmail.com",
+            salary: 15000,
+            projects: [
+                { title: "Minerva", openTasks: 25, closedTasks: 14 },
+                { title: "Flangex", openTasks: 18, closedTasks: 7 }
+            ]
+        },
+        {
+            firstName: "Anna",
+            lastName: "Zaika",
+            birthday: "1992-11-26",
+            hireDate: "1992-12-26",
+            gender: "Female",
+            email: "zaika@gmail.com",
+            salary: 11000,
+            projects: [
+                { title: "Minerva", openTasks: 25, closedTasks: 14 },
+                { title: "Flangex", openTasks: 18, closedTasks: 7 }
+            ]
+        },
+        {
+            firstName: "Ruslan",
+            lastName: "Kazenko",
+            birthday: "1992-11-26",
+            hireDate: "1992-12-26",
+            gender: "Male",
+            email: "kazenko@gmail.com",
+            salary: 23000,
+            projects: [
+                { title: "Minerva", openTasks: 25, closedTasks: 14 },
+                { title: "Flangex", openTasks: 18, closedTasks: 7 }
+            ]
+        }
+    ];
+
     $scope.employees = employees;
     $scope.sortType = "firstName";
     $scope.sortReverse = false;

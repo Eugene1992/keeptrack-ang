@@ -1,3 +1,6 @@
+
+var mainApp = angular.module('mainApp');
+
 var projects = [
     {
         name: "Flangex",
@@ -189,10 +192,7 @@ var employees = [
     }
 ];
 
-
-var helloWorldApp = angular.module("helloWorldApp", ['isteven-multi-select', 'ui.bootstrap.collapse']);
-
-helloWorldApp.controller("AdminProjectsCtrl", function ($scope, $rootScope) {
+mainApp.controller("AdminProjectsCtrl", function ($scope, $rootScope) {
 
     $scope.projects = projects;
     $scope.employees = employees;
@@ -283,7 +283,7 @@ helloWorldApp.controller("AdminProjectsCtrl", function ($scope, $rootScope) {
     }
 });
 
-helloWorldApp.controller("ProjectBoxesCtrl", function ($scope) {
+mainApp.controller("ProjectBoxesCtrl", function ($scope) {
 
     $scope.showInfoBoxes = false;
     $scope.showSummary = false;
