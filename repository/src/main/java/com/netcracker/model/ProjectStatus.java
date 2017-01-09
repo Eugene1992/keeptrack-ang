@@ -28,7 +28,7 @@ public enum ProjectStatus {
      */
     private String name;
 
-    ProjectStatus (String name) {
+    ProjectStatus(String name) {
         this.name = name;
     }
 
