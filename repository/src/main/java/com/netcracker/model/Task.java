@@ -2,6 +2,10 @@ package com.netcracker.model;
 
 /**
  * The smallest piece of a job that serves as a unit of work a project.
+ *
+ * @see BaseEntity
+ * @see Employee
+ * @see TaskStatus
  */
 public class Task extends BaseEntity {
 
@@ -13,12 +17,12 @@ public class Task extends BaseEntity {
     /**
      * The employee who created the task.
      */
-    private Object creator;
+    private Employee creator;
 
     /**
      * The employee to whom the task is assigned.
      */
-    private Object assigner;
+    private Employee assigner;
 
     /**
      * Estimated time to complete the task.
@@ -35,7 +39,7 @@ public class Task extends BaseEntity {
      */
     private String description;
 
-    public Task(int id, String name, Object creator, Object assigner, int estimate, TaskStatus status, String description) {
+    public Task(int id, String name, Employee creator, Employee assigner, int estimate, TaskStatus status, String description) {
         super(id);
         this.name = name;
         this.creator = creator;
@@ -53,19 +57,19 @@ public class Task extends BaseEntity {
         this.name = name;
     }
 
-    public Object getCreator() {
+    public Employee getCreator() {
         return creator;
     }
 
-    public void setCreator(Object creator) {
+    public void setCreator(Employee creator) {
         this.creator = creator;
     }
 
-    public Object getAssigner() {
+    public Employee getAssigner() {
         return assigner;
     }
 
-    public void setAssigner(Object assigner) {
+    public void setAssigner(Employee assigner) {
         this.assigner = assigner;
     }
 
