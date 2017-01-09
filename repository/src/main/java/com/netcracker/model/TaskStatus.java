@@ -2,13 +2,15 @@ package com.netcracker.model;
 
 /**
  * The statuses of the stages of task execution.
+ *
+ * @see Task
  */
 public enum TaskStatus {
 
     /**
-     * The task is scheduled but not open. Perhaps because there is not a closed dependent task.
+     * The task is created but not open. Perhaps because there is not a closed dependent task.
      */
-    PLANED("Planed"),
+    CREATED("Created"),
 
     /**
      * The task is opened by the Project Manager, but the assigner had not yet accepted her.

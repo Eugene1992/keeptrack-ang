@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 /**
  * A person who is hired to work for a project.
+ *
+ * @see Project
+ * @see Gender
  */
 public class Employee extends BaseEntity {
 
