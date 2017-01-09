@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mainApp">
     <head>
         <meta charset="UTF-8">
         <title>KeepTrack</title>
@@ -10,13 +10,19 @@
         <!-- Custom CSS -->
         <link href="resources/css/sb-admin.css" rel="stylesheet">
 
-        <!-- Morris Charts CSS -->
-        <link href="resources/css/plugins/morris.css" rel="stylesheet">
+        <!-- isteven multi select -->
+        <link href="resources/css/isteven-multi-select.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
         <link href="resources/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <!-- Angular JS -->
+        <script src="resources/js/libs/angular.js"></script>
+
+        <!-- Morris Charts CSS -->
+        <link href="resources/css/plugins/morris.css" rel="stylesheet">
     </head>
-    <body>
+    <body ng-controller="MainCtrl">
         <div id="wrapper">
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -94,10 +100,10 @@
                         <li>
                             <a href="#"><i class="fa fa-fw fa-money"></i> Customers</a>
                         </li>
-                        <li>
+                        <li ng-click="changeView('projects')">
                             <a href="#"><i class="fa fa-fw fa-edit"></i> Projects</a>
                         </li>
-                        <li>
+                        <li ng-click="changeView('employees')">
                             <a href="#"><i class="fa fa-fw fa-user"></i> Employees</a>
                         </li>
                         <li>
@@ -118,10 +124,17 @@
                         </li>
                     </ul>
                 </div>
-                <!-- /.navbar-collapse -->
             </nav>
+            <div ng-include="currentView"></div>
         </div>
-        <!-- /#wrapper -->
+
+        <!-- Custom scripts -->
+        <script src="resources/js/pages/app.js"></script>
+        <script src="resources/js/pages/employees.js"></script>
+        <script src="resources/js/pages/projects.js"></script>
+
+        <!-- isteven multi select -->
+        <script src="resources/js/libs/isteven-multi-select.js"></script>
 
         <!-- jQuery -->
         <script src="resources/js/libs/jquery.js"></script>
