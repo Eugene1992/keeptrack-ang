@@ -2,6 +2,9 @@ package com.netcracker.model;
 
 import java.time.LocalDate;
 
+/**
+ * A person who is hired to work for a project.
+ */
 public class Employee extends BaseEntity {
 
     /**
