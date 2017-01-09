@@ -9,15 +9,14 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{
+        return new Class<?>[] {
                 WebConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-
-        return new Class<?>[]{
+        return new Class<?>[] {
                 WebConfig.class
         };
     }
@@ -26,5 +25,4 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-
 }
