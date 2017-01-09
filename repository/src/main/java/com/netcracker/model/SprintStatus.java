@@ -9,9 +9,9 @@ package com.netcracker.model;
 public enum SprintStatus {
 
     /**
-     * The sprint is scheduled but not started because there is not a closed previous sprint.
+     * The sprint is created but not started because there is not a closed previous sprint.
      */
-    PLANED("Planed"),
+    CREATED("Created"),
 
     /**
      * Sprint is in the execution stage.
